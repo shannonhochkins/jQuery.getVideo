@@ -39,9 +39,10 @@ Options | Description | Default
 autoPlay | Determines if the video should start playing straight away. | false
 
 
-| Options        | Description           | Default  |
+| Options        | Default           | Description  |
 | ------------- |:-------------:| -----:|
-| autoPlay     | Determines if the video should start playing straight away. | false |
+| autoPlay | false | Determines if the video should start playing straight away.  |
+| urlOrId | null | This can be either the url or the ID of the video, the plugin will figure everything out |
 
 
 
