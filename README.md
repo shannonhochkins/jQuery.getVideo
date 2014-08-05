@@ -32,8 +32,11 @@ $('.element').loadVideo({
 Documentation
 --------------
 
-autoPlay-Determines if the video should start playing straight away.|
+Options | Description | Default
 
+--- | --- | ---
+
+autoPlay | Determines if the video should start playing straight away. | false
 
 
 
