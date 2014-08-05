@@ -41,9 +41,8 @@ autoPlay | Determines if the video should start playing straight away. | false
 
 | Options        | Description           | Default  |
 | ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| autoPlay     | Determines if the video should start playing straight away. | false |
+
 
 
 
