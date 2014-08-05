@@ -1,26 +1,20 @@
-**Note:** This is a re-structured version of https://github.com/ericam/compass-animate.
-
-
 LoadVideo
 ===============
 
-
 This plugin was build to automatically load videos for Vimeo & YouTube.
-Eric Meyer's [animate.css][animate]
-by [shannonhochkins]. This plugin will not work without compass.
-
+by [shannon hochkins]. This plugin will not work without compass.
+[shannon hochkins]: http://www.shannonhochkins.com/
 
 ## Usage
 
-```
-// *.js
+```javascript
 $('.element').loadVideo({
     autoPlay: false,
-    urlOrId: null, //Can pass either full url or flat ID
-    videoLocation: 'Vimeo', //Can be set to Vimeo or Youtube
-    videoWidth: 500, //Can be set to 'fill'        
-    videoHeight: 450, //Can be set to 'fill'
-    customClass: 'videoContainer', // Add this to your new iframe that the plugin will create.
+    urlOrId: null,
+    videoLocation: 'Vimeo',
+    videoWidth: 500,
+    videoHeight: 450, 
+    customClass: 'videoContainer',
     onPause: function() {},
     beforeLoad: function() {},
     onVideoEnd: function() {},
@@ -34,7 +28,7 @@ $('.element').loadVideo({
 ```
 
 
-[shannonhochkins]: http://www.shannonhochkins.com/
+
 
 
 
