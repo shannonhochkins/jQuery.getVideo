@@ -39,7 +39,7 @@ Options | Description | Default
 autoPlay | Determines if the video should start playing straight away. | false
 
 
-| Tables        | Are           | Cool  |
+| Options        | Description           | Default  |
 | ------------- |:-------------:| -----:|
 | col 3 is      | right-aligned | $1600 |
 | col 2 is      | centered      |   $12 |
