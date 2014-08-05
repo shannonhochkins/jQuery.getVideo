@@ -5,7 +5,8 @@ This plugin was build to automatically load videos for Vimeo & YouTube.
 by [shannon hochkins]. This plugin will not work without compass.
 [shannon hochkins]: http://www.shannonhochkins.com/
 
-## Usage
+Usage
+--------------
 
 ```javascript
 $('.element').loadVideo({
@@ -26,6 +27,15 @@ $('.element').loadVideo({
     getMatchedVideo: function(id) {}
 });
 ```
+
+
+Documentation
+--------------
+
+autoPlay-Determines if the video should start playing straight away.|
+
+
+
 
 
 
