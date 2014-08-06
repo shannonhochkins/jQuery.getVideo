@@ -6,19 +6,19 @@
                 defaults = {
                     autoPlay: false,
                     urlOrId: null, //Can pass either full url or flat ID
-                    videoLocation: 'Vimeo', //Can be set to Vimeo or Youtube
+                    videoLocation: 'YouTube', //Can be set to Vimeo or Youtube
                     videoWidth: 500, //Can be set to 'fill'        
                     videoHeight: 450, //Can be set to 'fill'
                     customClass: 'videoContainer', // Add this to your new iframe that the plugin will create.
-                    onPause: function() {},
-                    beforeLoad: function() {},
-                    onVideoEnd: function() {},
-                    onReady: function() {},
-                    onRestart: function() {},
-                    onPlay: function() {},
-                    onStop: function() {},
-                    onUnload: function() {},
-                    getMatchedVideo: function(id) {}
+                    onPause: function(state, player, e) {},
+                    beforeLoad: function(state, player, e) {},
+                    onVideoEnd: function(state, player, e) {},
+                    onReady: function(state, player, e) {},
+                    onSeek: function(state, player, e) {},
+                    onPlay: function(state, player, e) {},
+                    onStop: function(state, player, e) {},
+                    onUnload: function(state, player, e) {},
+                    getMatchedVideo: function(state, player, e) {}
                 },
                 attrs;
 
@@ -28,20 +28,14 @@
             // Setup our containers for youtube or vimeo depending on settings.videoLocation            
             settings['isYouTube'] = settings.videoLocation.toLowerCase() == 'youtube';
             //Setup our videoID variable
-            var matchedInfo = methods.matchID.apply(container.get(0), [settings.isYouTube, settings.urlOrId]);
+            var matchedInfo = methods.matchID.apply(container.get(0), [settings.urlOrId]);
             // Set our videoID variable
             settings['videoID'] = matchedInfo.id;
             // May override your setting depending on input of urlOrID variable.
-            settings.isYouTube = matchedInfo.loc;
-
-            // Override video width or height if settings is set to 'fill'
-            if ((settings.videoWidth == 'fill') || (settings.videoHeight == 'fill')) {
-                settings.videoWidth = '100%';
-                settings.videoHeight = '100%';
-            }
+            settings.isYouTube = (matchedInfo.type == 'youtube');
 
             if (settings.videoID == 'Error') {
-                container.html('variable urlOrId is not correct, please check you have passed the right information.');
+                container.html('variable urlOrId is not correct, please check you have parsed the right information.');
             } else {
                 if (settings.isYouTube) {
                     $('body').attr('data-youtube-api', 'waiting');
@@ -78,11 +72,11 @@
         stop: function() {
             var iframe = $(this);
             iframe.html(iframe.html());
-            methods.stateFunctions.apply(this, ['stop']);
+            methods.stateFunctions.apply(this, ['stop', iframe, this]);
         },
         unload: function() {
             $(this).empty();
-            methods.stateFunctions.apply(this, ['unload']);
+            methods.stateFunctions.apply(this, ['unload', $(this), this]);
         },
         seekTo: function(time) {
             var player = $(this);
@@ -92,7 +86,7 @@
             if (methods.checkPlayer.apply(this)) {
                 ytplayer.seekTo(time);
                 //Youtube api has no return from the above event, forcing attr
-                return methods.stateFunctions.apply(ytplayer, ['youtubeSeek']);
+                return methods.stateFunctions.apply(ytplayer, ['youtubeSeek', player, this]);
             } else {
                 methods.vimeoApiFunctions.apply($(this).find('iframe').get(0), ['seekTo', time]);
             }
@@ -103,7 +97,7 @@
                 ytplayer.seekTo(0);
                 ytplayer.playVideo();
                 //Youtube api has no return from the above event, forcing attr
-                return methods.stateFunctions.apply(ytplayer, ['youtubeSeek']);
+                return methods.stateFunctions.apply(ytplayer, ['youtubeSeek', player, this]);
             } else {
                 methods.vimeoApiFunctions.apply($(this).find('iframe').get(0), ['play']);
                 methods.vimeoApiFunctions.apply($(this).find('iframe').get(0), ['seekTo', 0]);
@@ -118,7 +112,7 @@
         checkPlayer: function() {
             return ($(this).find('iframe').attr('data-player') == 'YouTube');
         },
-        stateFunctions: function(state, options) {
+        stateFunctions: function(state, player, e) {
             switch (state) {
                 case -1:
                 case 'ready':
@@ -127,31 +121,31 @@
                     } else {
                         $('body').attr('data-vimeo-api', 'ready');
                     }
-                    settings.onReady.call(this);
+                    settings.onReady.apply(this, [state, player, e]);
                     break;
                 case 0:
                 case 'finish':
-                    settings.onVideoEnd.call(this);
+                    settings.onVideoEnd.apply(this, [state, player, e]);
                     break;
                 case 1:
                 case 'play':
-                    settings.onPlay.call(this);
+                    settings.onPlay.apply(this, [state, player, e]);
                     break;
                 case 'stop':
-                    settings.onStop.call(this);
+                    settings.onStop.apply(this, [state, player, e]);
                 case 'unload':
-                    settings.onUnload.call(this);
+                    settings.onUnload.apply(this, [state, player, e]);
                 case 2:
                 case 'pause':
-                    settings.onPause.call(this);
+                    settings.onPause.apply(this, [state, player, e]);
                     break;
                 case 'youtubeSeek':
                 case 'seek':
-                    settings.onRestart.call(this);
+                    settings.onSeek.apply(this, [state, player, e]);
                 case 'returnID':
-                    settings.getMatchedVideo.call(this, options);
+                    settings.getMatchedVideo.apply(this, [state, player, e]);
                 default:
-                    settings.beforeLoad.call(this);
+                    settings.beforeLoad.apply(this, [state, player, e]);
             }
         },
         vimeoApiFunctions: function(action, value) {
@@ -164,48 +158,25 @@
             }
             $(this).get(0).contentWindow.postMessage(JSON.stringify(data), url);
         },
-        matchID: function(locIsYoutube, urlOrId) {
-            var vimeoRegExp = /^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/,
-                youTubeRegExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
-                urlOrId = String(urlOrId); // Force string ID
-
-
-            if (urlOrId.indexOf("yout") != -1) {
-                matched = urlOrId.match(youTubeRegExp);
-                if (matched && matched[2].length == 11) {
-                    urlOrId = matched[2];
-                    locIsYoutube = true;
-                } else {
-                    if (urlOrId.length != 11) {
-                        urlOrId = "Error";
-                    }
-                }
-            } else if (urlOrId.indexOf("vimeo") != -1) {
-                matched = vimeoRegExp.exec(urlOrId);
-                if (matched && urlOrId.match("^\\d*$") !== 'null') {
-                    urlOrId = matched[5];
-                    locIsYoutube = false;
-                } else {
-                    urlOrId = 'Error';
-                }
-            } else {
-                // No full URL found, matching ID from variable
-                if (locIsYoutube) {
-                    if (urlOrId.length != 11) {
-                        urlOrId = "Error";
-                    }
-                } else {
-                    if (urlOrId.match("^\\d*$") === null) {
-                        urlOrId = "Error";
-                    }
-                }
+        matchID: function(url) {
+            // The following regex will only determine the location of the URL.
+            // A simple indexOf wasn't used as the url might contain the text of vimeo or youtube in the videoname or username.
+            url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com|\.com\.))?/);
+            // Set the default to youtube.
+            var type = 'youtube';
+            // Search for vimeo in the match.
+            if (RegExp.$3.indexOf('vimeo') > -1) {
+                var type = 'vimeo';
             }
-            methods.stateFunctions.apply(this, ['returnID', urlOrId]);
-            result = {
-                'id': urlOrId,
-                'loc': locIsYoutube
-            };
-            return result;
+            // Split on slashes
+            var sres = url.split("/");
+            // Grap everything after the last slash.
+            var dirtyid = sres[sres.length - 1];
+            // Return the type, and the split id.
+            return {
+                type: type,
+                id: dirtyid.replace("watch?v=", "").split(/&|#|\?/)[0]
+            }
         }
     };
 
@@ -236,12 +207,13 @@ if (window.addEventListener) {
 function onMessageReceived(e) {
     if ($('body[data-youtube-api]').length == 0) {
         var data = JSON.parse(e.data);
-        var vim = $('#' + data.player_id).get(0);
-        methods.vimeoApiFunctions.apply(vim, ['addEventListener', 'pause']);
-        methods.vimeoApiFunctions.apply(vim, ['addEventListener', 'finish']);
-        methods.vimeoApiFunctions.apply(vim, ['addEventListener', 'play']);
-        methods.vimeoApiFunctions.apply(vim, ['addEventListener', 'seek']);
-        return methods.stateFunctions.apply(vim, [data.event]);
+        var player = $('#' + data.player_id);
+        methods.vimeoApiFunctions.apply(player.get(0), ['addEventListener', 'pause']);
+        methods.vimeoApiFunctions.apply(player.get(0), ['addEventListener', 'finish']);
+        methods.vimeoApiFunctions.apply(player.get(0), ['addEventListener', 'play']);
+        methods.vimeoApiFunctions.apply(player.get(0), ['addEventListener', 'seek']);
+
+        return methods.stateFunctions.apply(player, [data.event, player, e]);
     }
 }
 
@@ -272,9 +244,9 @@ function onYouTubePlayerAPIReady() {
     $('body').attr('data-youtube-api', 'ready');
 }
 
-function onPlayerStateChange(newState) {
-    var events = newState.data;
-    return methods.stateFunctions.apply($(this), [events]);
+function onPlayerStateChange(playerid, newstate, oldstate) {
+    var events = playerid.data;
+    return methods.stateFunctions.apply($(this), [events, $(ytplayer.a), playerid]);
 }
 
 function onPlayerReady(event) {
@@ -282,5 +254,5 @@ function onPlayerReady(event) {
     if (settings.autoPlay) {
         event.target.playVideo();
     }
-    return methods.stateFunctions.apply($(this), [-1]);
+    return methods.stateFunctions.apply($(this), [-1, $(ytplayer.a), event]);
 }
