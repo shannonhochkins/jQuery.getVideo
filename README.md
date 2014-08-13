@@ -33,22 +33,23 @@ Options
 --------------
 
 
-| Options         | Default                                 | Description  |
-| ------------- |:-------------:| -----:|
-| autoPlay        | false                               | Determines if the video should start playing straight away. |
-| urlOrId         | null                                | This can be either the url or the ID of the video, the plugin will figure everything out. |
-| videoLocation   | 'YouTube'                           | Only necessary if only the video ID has been set in ***urlOrId***, otherwise the location is automatically determined. Multicase allowed. |
-| videoWidth      | '100%'                              | This is the width of the video that will be created. Can be INT or STRING. |
-| videoHeight     | 450                                 | This is the height of the video that will be created. Can be INT or STRING. |
-| customClass     | 'videoContainer'                    | A class that will be added to the wrapper container. |
-| onPause         | function() {state, player, e}       | Callback when the user presses pause on the player. |
-| beforeLoad      | function() {state, player, e}       | Callback before the player is generated. |
-| onVideoEnd      | function() {state, player, e}       | Callback when the player finishes playing. |
-| onReady         | function() {state, player, e}       | Callback when the player is ready to be played. |
-| onSeek          | function() {state, player, e}       | Callback when the player is changing it's location on the timeline. **VIMEO ONLY** |
-| onPlay          | function() {state, player, e}       | Callback when the player is played. |
-| onStop          | function() {state, player, e}       | Callback when the player is stopped. |
-| onUnload        | function() {state, player, e}       | callback when the player is unloaded. |
+| Options               | Default                             | Description  |
+| --------------------- |:-----------------------------------:| ------------:|
+| autoPlay              | false                               | Determines if the video should start playing straight away. |
+| urlOrId               | null                                | This can be either the url or the ID of the video, the plugin will figure everything out. |
+| videoLocation         | 'YouTube'                           | Only necessary if only the video ID has been set in ***urlOrId***, otherwise the location is automatically determined. Multicase allowed. |
+| videoWidth            | '100%'                              | This is the width of the video that will be created. Can be INT or STRING. |
+| videoHeight           | 450                                 | This is the height of the video that will be created. Can be INT or STRING. |
+| customClass           | 'videoContainer'                    | A class that will be added to the wrapper container. |
+| showRelatedVideos     | true                                | This determines if after the video has finished, if related videos should appear or not. **YouTube only**. |
+| onPause               | function() {state, player, e}       | Callback when the user presses pause on the player. |
+| beforeLoad            | function() {state, player, e}       | Callback before the player is generated. |
+| onVideoEnd            | function() {state, player, e}       | Callback when the player finishes playing. |
+| onReady               | function() {state, player, e}       | Callback when the player is ready to be played. |
+| onSeek                | function() {state, player, e}       | Callback when the player is changing it's location on the timeline. **VIMEO ONLY** |
+| onPlay                | function() {state, player, e}       | Callback when the player is played. |
+| onStop                | function() {state, player, e}       | Callback when the player is stopped. |
+| onUnload              | function() {state, player, e}       | callback when the player is unloaded. |
 
 
 
