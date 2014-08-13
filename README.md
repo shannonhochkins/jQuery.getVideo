@@ -45,7 +45,7 @@ Options
 | beforeLoad      | function() {state, player, e}       | Callback before the player is generated. |
 | onVideoEnd      | function() {state, player, e}       | Callback when the player finishes playing. |
 | onReady         | function() {state, player, e}       | Callback when the player is ready to be played. |
-| onSeek          | function() {state, player, e}       | Callback when the player is changing it's location on the timeline. VIMEO ONLY |
+| onSeek          | function() {state, player, e}       | Callback when the player is changing it's location on the timeline. **VIMEO ONLY** |
 | onPlay          | function() {state, player, e}       | Callback when the player is played. |
 | onStop          | function() {state, player, e}       | Callback when the player is stopped. |
 | onUnload        | function() {state, player, e}       | callback when the player is unloaded. |
