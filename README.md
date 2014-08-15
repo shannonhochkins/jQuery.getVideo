@@ -15,6 +15,7 @@ $('.element').loadVideo({
     videoLocation: 'Vimeo',
     videoWidth: 500,
     videoHeight: 450, 
+    showRelatedVideos: true,
     customClass: 'videoContainer',
     onPause: function() {},
     beforeLoad: function() {},
