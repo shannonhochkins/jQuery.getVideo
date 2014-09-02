@@ -1,8 +1,6 @@
 LoadVideo
 ===============
-
-This plugin was build to automatically load videos for Vimeo & YouTube.
-by [shannon hochkins]. This plugin will not work without compass.
+This jquery plugin was created to automate the api for YouTube & Vimeo videos, it handles callbacks, methods and just general control over the main video through javascript, created by [shannon hochkins].
 [shannon hochkins]: http://www.shannonhochkins.com/
 
 Usage
