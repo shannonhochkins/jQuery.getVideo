@@ -14,9 +14,10 @@ $('.element').loadVideo({
     urlOrId: null,
     videoLocation: 'Vimeo',
     videoWidth: 500,
-    videoHeight: 450, 
+    videoHeight: 450,
     showRelatedVideos: true,
     customClass: 'videoContainer',
+    onInit: function() {},
     onPause: function() {},
     beforeLoad: function() {},
     onVideoEnd: function() {},
@@ -43,6 +44,7 @@ Options
 | videoHeight           | 450                                 | This is the height of the video that will be created. Can be INT or STRING. |
 | customClass           | 'videoContainer'                    | A class that will be added to the wrapper container. |
 | showRelatedVideos     | true                                | This determines if after the video has finished, if related videos should appear or not. **YouTube only**. |
+| onInit                | function() {settings}               | Callback once all the initial settings have been processed, these settings are then passed to the init callback |
 | onPause               | function() {state, player, e}       | Callback when the user presses pause on the player. |
 | beforeLoad            | function() {state, player, e}       | Callback before the player is generated. |
 | onVideoEnd            | function() {state, player, e}       | Callback when the player finishes playing. |
@@ -57,7 +59,7 @@ Options
 Url Formats
 --------------
 
-So far I believe I cover the following url formats that can be parsed to the urlOrID option. It may handle more than this! :)
+So far I believe I cover the following url formats that can be passed to the urlOrID option. It may handle more than this! :)
 
 
 ```html
