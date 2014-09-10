@@ -83,7 +83,7 @@ The above will generate the YouTube iframe html, and insert it into the videoWra
 ```html
 <div class="videoWrapper">
     <span> foo </span>
-    <iframe id="dpW-Lb_R1IoContainer"></iframe>
+    <iframe id="dpW-Lb_R1IoContainer"><!-- YouTube data here --></iframe>
 </div>
 ```
 
@@ -104,9 +104,9 @@ video.getVideo({
     urlOrId: 'https://www.youtube.com/watch?v=dpW-Lb_R1Io&list=UU-2i8MqA4cILtRIsSK1K3DQ',
     autoPlay: true,
     replace: true,
-    onInit: function(container){
+    onInit: function(container) {
         // Container is quite literally just the element the plugin was run on, in this case, container would equal the var `video` which we defined earlier.
-        console.log('Called once settings are setup');
+        console.log('Called once plugin settings are defined');
         // On ALL callbacks, we have access to the entire plugin & all it's data.
         // Example:
         var plugin = this;
@@ -162,14 +162,46 @@ video.getVideo({
         // For YouTube videos, player equals the ytplayer object.
         console.log('Called when the video & plugin is destroyed.');
     }
-}
 });
 ```
 
 
 Api
 --------------
+##### HTML
+```html
+<div class="videoWrapper"></div>
+```
+##### JAVASCRIPT
 
+```javascript
+var video = $('.videoWrapper');
+video.getVideo({
+    urlOrId: 'dpW-Lb_R1Io',
+    autoPlay: true
+});
+
+// Once the initial plugin is defined, we can access methods like so:
+
+- To play the video:
+-- video.getVideo('play');
+- To pause the video:
+-- video.getVideo('pause');
+- To seek to a 12 seconds into the video:
+-- video.getVideo('seekTo', 12);
+- To destroy the video
+-- video.getVideo('destroy');
+- To get all the plugin data
+-- var plugin = video.getVideo('getAllData');
+-- plugin.ytplayer.mute();
+-- console.log((plugin.settings.isYouTube ? 'yes' : 'no'));
+- To check if it exists:
+-- video.getVideo('exists');
+-- // returns object {exists: true, data: data}
+- To restart the video:
+-- video.getVideo('restart');
+
+```
 
 Url Formats
 --------------

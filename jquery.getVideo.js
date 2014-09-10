@@ -209,7 +209,10 @@
                     if (internal.currentPlugin.settings.isYouTube == false) return false;
                     var settings = internal.currentPlugin.settings;
                     if (settings.autoPlay) {
+                        // The onReady event is automatically fired this way, no need to call it twice.
                         event.target.playVideo();
+                    } else {
+                        return internal.stateFunctions.apply(internal.currentPlugin, ['ready', internal.ytplayer]);
                     }
 
                 },
@@ -359,32 +362,26 @@
             switch (state) {
                 case -1:
                 case 'ready':
-                    console.log('ready');
                     internal.apiReady.apply(self);
                     internal.applyCallback.apply(self, ['onReady', player]);
                     break;
                 case 0:
                 case 'finish':
-                    console.log('finish');
                     internal.applyCallback.apply(self, ['onVideoEnd', player]);
                     break;
                 case 1:
                 case 'play':
-                    console.log('play');
                     internal.applyCallback.apply(self, ['onPlay', player]);
                     break;
                 case 'destroy':
-                    console.log('destroy');
                     internal.applyCallback.apply(self, ['onDestroy', player]);
                     break;
                 case 2:
                 case 'pause':
-                    console.log('pause');
                     internal.applyCallback.apply(self, ['onPause', player]);
                     break;
                 case 'youtubeSeek':
                 case 'seek':
-                    console.log('seek');
                     internal.applyCallback.apply(self, ['onSeek', player]);
                     break;
                 default:
