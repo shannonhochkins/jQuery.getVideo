@@ -37,6 +37,7 @@
             onReady: null,
             onSeek: null,
             onPlay: null,
+            onOtherEvent: null,
             onDestroy: null
         };
 
@@ -385,13 +386,14 @@
                     internal.applyCallback.apply(self, ['onSeek', player]);
                     break;
                 default:
+                    internal.applyCallback.apply(self, ['onOtherEvent', state, player]);
                     break;
             }
         },
-        applyCallback: function(name, player) {
+        applyCallback: function(name, a, b) {
             var callback = this.settings[name];
             if (typeof(callback) == 'function') {
-                callback.apply(this, [player]);
+                callback.apply(this, [a, b]);
             }
         }
     }

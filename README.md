@@ -44,6 +44,7 @@ $('.element').getVideo({
     onReady: null,
     onSeek: null,
     onPlay: null,
+    onOtherEvent: null,
     onDestroy: null
 });
 ```
@@ -70,6 +71,7 @@ Options
 | onReady               | function             | Callback when the video is ready to be played. |
 | onSeek                | function             | Callback when the video is changing it's location on the timeline. |
 | onPlay                | function             | Callback when the video is played. |
+| onOtherEvent          | function             | Callback if an event is called but not setup for a generic callback |
 | onDestroy             | function             | Callback when the video/plugin is destroyed. |
 
 
@@ -167,6 +169,9 @@ video.getVideo({
     },
     onPlay: function(player){
         console.log('Called when the video plays.');
+    },
+    onOtherEvent : function(event, player) {
+        console.log('event: ', event);
     },
     onDestroy: function(player){
         console.log('Called when the video & plugin is destroyed.');
