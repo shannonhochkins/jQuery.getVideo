@@ -184,9 +184,9 @@ video.getVideo({
 Once the initial plugin is defined, we can access methods like so:
 
 - To play the video:
-  - ```javascript 
-  video.getVideo('play');
-  ```
+```javascript 
+video.getVideo('play');
+```
 - To pause the video:
   - video.getVideo('pause');
 - To seek to a 12 seconds into the video:
