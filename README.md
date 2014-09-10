@@ -188,20 +188,32 @@ Once the initial plugin is defined, we can access methods like so:
 video.getVideo('play');
 ```
 - To pause the video:
-  - video.getVideo('pause');
+```javascript 
+video.getVideo('pause');
+```
 - To seek to a 12 seconds into the video:
-  - video.getVideo('seekTo', 12);
+```javascript 
+video.getVideo('seekTo', 12);
+```
 - To destroy the video
-  - video.getVideo('destroy');
+```javascript 
+video.getVideo('destroy');
+```
 - To get all the plugin data
-  - var plugin = video.getVideo('getAllData');
-  - plugin.ytplayer.mute();
-  - console.log((plugin.settings.isYouTube ? 'yes' : 'no'));
+```javascript 
+var plugin = video.getVideo('getAllData');
+plugin.ytplayer.mute();
+console.log((plugin.settings.isYouTube ? 'yes' : 'no'));
+```
 - To check if it exists:
-  - video.getVideo('exists');
-  - // returns object {exists: true, data: data}
+```javascript 
+video.getVideo('exists');
+// returns object {exists: true, data: data}
+```
 - To restart the video:
-  - video.getVideo('restart');
+```javascript 
+video.getVideo('restart');
+```
 
 
 
