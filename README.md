@@ -71,6 +71,12 @@ $('.videoWrapper').getVideo({
     urlOrId: 'https://www.youtube.com/watch?v=dpW-Lb_R1Io&list=UU-2i8MqA4cILtRIsSK1K3DQ',
     autoPlay: true
 });
+// Or Simpler:
+$('.videoWrapper').getVideo({
+    urlOrId: 'dpW-Lb_R1Io',
+    autoPlay: true
+});
+
 ```
 The above will generate the YouTube iframe html, and insert it into the videoWrapper element similar to this:
 
