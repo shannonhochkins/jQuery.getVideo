@@ -3,6 +3,27 @@ getVideo
 This jquery plugin was created to automate the api for YouTube & Vimeo videos, it handles callbacks, methods and just general control over the main video through javascript, created by [shannon hochkins]. Currently, this ONLY works for YouTube & Vimeo, if you would like to request a specific new network, please contact me and let me know :)
 [shannon hochkins]: http://www.shannonhochkins.com/
 
+
+### Index
+--------------
+
+- General
+  - [Defaults][0]
+  - [Options][1]
+  - [Basic Setup][2]
+- Advanced
+  - [Advanced Setup][3]
+  - [API Methods][4]
+  - [URL Formatting][5]
+
+
+[0]: #defaults
+[1]: #options
+[2]: #examples
+[3]: #advanced
+[4]: #api-methods
+[5]: #url-formats
+
 Defaults
 --------------
 
@@ -166,7 +187,7 @@ video.getVideo({
 ```
 
 
-Api
+API Methods
 --------------
 ##### HTML
 ```html
@@ -207,8 +228,11 @@ console.log((plugin.settings.isYouTube ? 'yes' : 'no'));
 ```
 - To check if it exists:
 ```javascript 
-video.getVideo('exists');
+var plugin = video.getVideo('exists');
 // returns object {exists: true, data: data}
+if (plugin.exists) {
+    data.element.addClass('I-EXIST');
+}
 ```
 - To restart the video:
 ```javascript 
@@ -217,10 +241,10 @@ video.getVideo('restart');
 
 
 
-Url Formats
+URL Formats
 --------------
 
-So far I believe I cover the following url formats that can be passed to the urlOrID option. It may handle more than this! :)
+The interpreter is smart enough to get the id from I believe any existing url format from Vimeo or Youtube, so don't stress when pasting it into the field! All of the below urls have been tested without any issues.
 
 
 ```html
