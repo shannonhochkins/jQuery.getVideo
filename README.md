@@ -122,7 +122,7 @@ The above will generate the YouTube iframe html, and insert it into the videoWra
 ```javascript
 var video = $('.videoWrapper');
 video.getVideo({
-    urlOrId: 'https://www.youtube.com/watch?v=dpW-Lb_R1Io&list=UU-2i8MqA4cILtRIsSK1K3DQ',
+    urlOrId: 'dpW-Lb_R1Io',
     autoPlay: true,
     replace: true,
     onInit: function(container) {
@@ -133,12 +133,15 @@ video.getVideo({
         var plugin = this;
         plugin.iframe.addClass('someClass');
     },
+    beforeLoad: function(container){
+        console.log('Called before we start doing anything with the plugin.');
+    },    
     onReady: function(player) {
+        // For Vimeo videos, player equals the iframe of the video.
+        // For YouTube videos, player equals the ytplayer object.
         video.removeClass('loading');
         // Start the video from 12 seconds once it's ready.
-        video.getVideo('seekTo', 12);
-        // For Vimeo videos, player equals the iframe of the video
-        // For YouTube videos, player equals the ytplayer object.
+        video.getVideo('seekTo', 12);        
         // Example, this allows you to access methods that I have not created the functionality for, example:
         player.mute(); // YouTube only.
         // For a full list of functions available through the YouTube API, please visit: https://developers.google.com/youtube/js_api_reference#Functions
@@ -153,34 +156,19 @@ video.getVideo({
         plugin.getAllData().ytplayer.unMute(); // YouTube only.
         // This is the same as player.unMute(); // YouTube only.
     },
-    beforeLoad: function(container){
-        // For Vimeo videos, player equals the iframe of the video
-        // For YouTube videos, player equals the ytplayer object.
-        console.log('Called before we start doing anything with the plugin.');
-    },
     onPause: function(player){
-        // For Vimeo videos, player equals the iframe of the video
-        // For YouTube videos, player equals the ytplayer object.
         console.log('Called when the video is paused.');
     },
     onVideoEnd: function(player){
-        // For Vimeo videos, player equals the iframe of the video
-        // For YouTube videos, player equals the ytplayer object.
         console.log('Called when the video is finished.');
     },
     onSeek: function(player){
-        // For Vimeo videos, player equals the iframe of the video
-        // For YouTube videos, player equals the ytplayer object.
         console.log('Called when the video timeline changes.');
     },
     onPlay: function(player){
-        // For Vimeo videos, player equals the iframe of the video
-        // For YouTube videos, player equals the ytplayer object.
         console.log('Called when the video plays.');
     },
     onDestroy: function(player){
-        // For Vimeo videos, player equals the iframe of the video
-        // For YouTube videos, player equals the ytplayer object.
         console.log('Called when the video & plugin is destroyed.');
     }
 });
@@ -231,7 +219,7 @@ console.log((plugin.settings.isYouTube ? 'yes' : 'no'));
 var plugin = video.getVideo('exists');
 // returns object {exists: true, data: data}
 if (plugin.exists) {
-    data.element.addClass('I-EXIST');
+    plugin.data.element.addClass('I-EXIST');
 }
 ```
 - To restart the video:
